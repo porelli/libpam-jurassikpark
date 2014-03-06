@@ -1,0 +1,12 @@
+Package: libpam-jurassikpark
+Version: 0.1-1
+Architecture: all
+Maintainer: Michele Porelli <linux571@gmail.com>
+Installed-Size: 602
+Pre-Depends: libpam-runtime (>= 1.0.1-6~), multiarch-support
+Depends: libpam-modules, mplayer, libpam0g (>= 0.99.7.1)
+Section: admin
+Priority: extra
+Description: PAM fail login like Jurassik Park film
+ PAM module that show a video like in Jurassik Park film
+ after three failed logins

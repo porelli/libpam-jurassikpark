@@ -1,0 +1,14 @@
+Source: libpam-jurassikpark
+Maintainer: Michele Porelli <linux571@gmail.com>
+Section: admin
+Priority: extra
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 9)
+
+Package: libpam-jurassikpark
+Architecture: all
+Pre-Depends: libpam-runtime (>= 1.0.1-6~), multiarch-support
+Depends: libpam-modules, mplayer, libpam0g (>= 0.99.7.1), ${misc:Depends}
+Description: PAM fail login like Jurassik Park film
+	PAM module that show a video like in Jurassik Park film
+	after three failed logins

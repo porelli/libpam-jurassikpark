@@ -1,0 +1,6 @@
+Name: Jurassik Park fail login
+Default: yes
+Priority: 1
+Auth-Type: Primary
+Auth:
+	[default=ignore]		pam_exec.so	seteuid /usr/bin/youdidntsaythemagicword

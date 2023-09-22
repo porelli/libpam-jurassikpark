@@ -4,6 +4,4 @@ set -e
 
 pam-auth-update --package --remove jurassikpark
 
-
-
 exit 0

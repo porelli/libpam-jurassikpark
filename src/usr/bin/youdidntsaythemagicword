@@ -1,52 +1,52 @@
 #!/bin/sh
 
-# Check current TTY and if we are on fail login case or not
-if [ -z "$PAM_TTY" ] ; then
- PAM_TTY=`tty`
- NOTUSINGPAM=yes
+# Check current TTY and if we are on a fail login case or not
+if [ -z "${PAM_TTY}" ] ; then
+  PAM_TTY=`tty`
+  NOTUSINGPAM=yes
 fi
-MYTTY=$PAM_TTY
-echo -n "access: PERMISSION DENIED." 1>$MYTTY
+MYTTY=${PAM_TTY}
+echo -n "access: PERMISSION DENIED." 1>${MYTTY}
 
-# How many failed attempts in 5 minutes?
-LOG="/tmp/jurassikpark-${PAM_RHOST}-${PAM_RUSER}-${PAM_SERVICE}-`echo $MYTTY | sed s/\\\//_/g`-${PAM_USER}.log"
-if [ -e "$LOG" ] ; then
- if test $(find "$LOG" -mmin +5) ; then
-  rm $LOG
- else
-  . $LOG
- fi
+# How many failed attempts durin the last 5 minutes?
+LOG="/tmp/jurassikpark-${PAM_RHOST}-${PAM_RUSER}-${PAM_SERVICE}-`echo ${MYTTY} | sed s/\\\//_/g`-${PAM_USER}.log"
+if [ -e "${LOG}" ] ; then
+  if test $(find "${LOG}" -mmin +5) ; then
+    rm ${LOG}
+  else
+    . ${LOG}
+  fi
 fi
-echo "COUNT_FAILS=`expr $COUNT_FAILS + 1`" > $LOG
+echo "COUNT_FAILS=`expr ${COUNT_FAILS} + 1`" > $LOG
 . $LOG
-if [ "$COUNT_FAILS" -le 2 ] && [ -z "$NOTUSINGPAM" ] ; then
- echo "" 1>$MYTTY
- exit 0
+if [ "${COUNT_FAILS}" -le 2 ] && [ -z "${NOTUSINGPAM}" ] ; then
+  echo "" 1>${MYTTY}
+  exit 0
 fi
 
 # Hinibit cursor
 setterm -cursor off
 
-# Hinibit ctrl-c ctrl-z
+# Hinibit ctrl-c and ctrl-z
 trap "" 2 20
 
 sleep 0.25
-sleep 0.25 ; echo -n "...and...." 1>$MYTTY
-sleep 0.25 ; echo "YOU DIDN'T SAY THE MAGIC WORD!" 1>$MYTTY
+sleep 0.25 ; echo -n "...and...." 1>${MYTTY}
+sleep 0.25 ; echo "YOU DIDN'T SAY THE MAGIC WORD!" 1>${MYTTY}
 sleep 0.25
 
-if [ -z "$NOTUSINGPAM" ] ; then
- mplayer -vo fbdev2 /usr/share/libpam-jurassikpark/youdidntsaythemagicword.ogv 2>/dev/null 1>/dev/null &
+if [ -z "${NOTUSINGPAM}" ] ; then
+  mplayer -vo fbdev2 /usr/share/libpam-jurassikpark/youdidntsaythemagicword.ogv 2>/dev/null 1>/dev/null &
 else
- mplayer -nogui -vo xv /usr/share/libpam-jurassikpark/youdidntsaythemagicword.ogv 2>/dev/null 1>/dev/null &
+  mplayer -nogui -vo xv /usr/share/libpam-jurassikpark/youdidntsaythemagicword.ogv 2>/dev/null 1>/dev/null &
 fi
 
 COUNT=0
-while [ $COUNT -le 560 ]
+while [ ${COUNT} -le 560 ]
 do
- echo "YOU DIDN'T SAY THE MAGIC WORD!" 1>$MYTTY
- sleep 0.05
- COUNT=`expr $COUNT + 1`
+  echo "YOU DIDN'T SAY THE MAGIC WORD!" 1>${MYTTY}
+  sleep 0.05
+  COUNT=`expr ${COUNT} + 1`
 done
 
 setterm -cursor on

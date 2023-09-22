@@ -4,6 +4,4 @@ set -e
 
 pam-auth-update --package
 
-
-
 exit 0
